@@ -1,9 +1,8 @@
 .atoka-div {
     border: 1px solid #cfd0a4 !important;
-    position: absolute !important;
+    position: fixed !important;
     width: 400px !important;
     height: 400px !important;
-    background: white !important;
     right: 10px !important;
     top: 10px !important;
     z-index: 9999 !important;
@@ -13,6 +12,10 @@
     color: #777777 !important;
     line-height: 1.5 !important;
     font-family: "Arial", Arial, sans-serif !important;
+    -webkit-user-select: none !important;
+    background-color: rgba(255,255,255,0.95) !important;
+    box-shadow: 3px 3px 22px #666;
+    border-radius: 3px !important;
 }
 
 span.highlight {
@@ -21,8 +24,17 @@ span.highlight {
     margin: 0 !important;
 }
 
-.atoka-div .atoka-href {
+.atoka-div a {
     font-family: "Arial", Arial, sans-serif !important;
+}
+
+.atoka-div a:hover {
+    text-decoration: underline;
+}
+
+.atoka-div .domain-info {
+	text-align: center;
+	margin-bottom: 6px;
 }
 
 .atoka-div .title {
@@ -57,3 +69,23 @@ span.highlight {
     list-style-type: disc !important;
     font-family: "Arial", Arial, sans-serif !important;
 }
+
+.atoka-div .company-name {
+	display: block;
+}
+
+.atoka-div .company-name:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+
+.atoka-div span.highlight {
+	background-color: transparent !important;
+}
+
+.atoka-div .company-name.selected {
+	background: #fc0;
+}
+
+.atoka-div 

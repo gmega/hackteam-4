@@ -2,11 +2,11 @@ var isActive = false;
 
 chrome.browserAction.onClicked.addListener(function(tab) {
 	if(isLoading) { return; }
-  isActive = !isActive;
-  console.log(chrome.browserAction);
+  	isActive = !isActive;
+
 	if (!isActive) {
 		removeInfo(tab.id);
-    deactivate();
+    	deactivate();
 	} else {
 		startLoading();
 		injectCSS(tab.id)

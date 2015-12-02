@@ -34,6 +34,12 @@ function showError(data) {
 function showData(data, isError) {
     remove();
 
+    if (!('domainData' in data)) {
+        var markup = `<div class='atoka-div'>Sorry but... seems not to be a company page..</div>`;
+        $('body').prepend(markup);
+        return;
+    }
+
     var body = $('body'),
         spots = [],
         domainData = data.domainData,
@@ -57,9 +63,11 @@ function showData(data, isError) {
 
     var markup = `
         <div class='atoka-div'>
-            <small class="small">We think this page belongs to</small>
-            <h3 class='title'>${domainData['title']}</h3>
-            <small class="small">${atecoInfo}</small>
+            <div class='domain-info'>
+                <small class="small">We think this page belongs to</small>
+                <h3 class='title'>${domainData['title']}</h3>
+                <small class="small">${atecoInfo}</small>
+            </div>
 
             <div class='more-info'>
                 <ul>
@@ -85,21 +93,21 @@ function showData(data, isError) {
 			atokaMarkup = '';
 
 		if (current.sameAs.wikipediaUri) {
-			wikipediaMarkup = `<a href="${current.sameAs.wikipediaUri}" target="_blank" class="atoka-href">Wikipedia</a>`;
+			wikipediaMarkup = `<a href="${current.sameAs.wikipediaUri}" target="_blank">Wikipedia</a>`;
 		}
 
 		if (current.sameAs.dbpediaUri) {
-			dbpediaMarkup = `<a href="${current.sameAs.dbpediaUri}" target="_blank" class="atoka-href">DBPedia</a>`;
+			dbpediaMarkup = `<a href="${current.sameAs.dbpediaUri}" target="_blank">DBPedia</a>`;
 		}
 
 		if (current.sameAs.atokaUri) {
-			atokaMarkup = `<a href="${current.sameAs.atokaUri}" target="_blank" class="atoka-href">Atoka.io</a>`;
+			atokaMarkup = `<a href="${current.sameAs.atokaUri}" target="_blank">Atoka.io</a>`;
 		}
 
 		var annotation = `
 			<li> 
                 <span data-spot="${current.spots[0]}" class='company-name'>${current.title}</span>
-				${wikipediaMarkup} ${dbpediaMarkup} ${atokaMarkup}
+				(${atokaMarkup} ${wikipediaMarkup} ${dbpediaMarkup})
 			</li>
 		`;
 		$('.atoka-div .annotations').append(annotation);
@@ -133,6 +141,8 @@ function showData(data, isError) {
 
             highlightNum = 0;
             highlightedSpot = spot;
+            $('.selected').removeClass('selected');
+            $(this).addClass('selected');
         }
 
         flyToNext();
