@@ -6,6 +6,10 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	if (tab.url === 'chrome://newtab/') { return;}
 
+	if (changeInfo.status === 'loading') {
+		startLoading();
+	}
+
 	if (changeInfo.status === 'complete') {
 		chrome.tabs.sendMessage(tab.id, {text: 'get_page_url'}, function(url) { 
 			requestInfoAboutTab(tab, url);
@@ -31,8 +35,10 @@ function requestInfoAboutTab(tab, url) {
   		dataType:"json",
   		success: function(data){
     		showResult(tab.id, data);
+    		stopLoading();
   		},
   		error: function(xhr, error, response) {
+    		stopLoading();
   			console.log('## Error from endpoint', arguments);
   			showError(tab.id, response);
   		}
@@ -49,4 +55,33 @@ function showError(tabId, data) {
 
 function injectCSS(tab) {
     chrome.tabs.insertCSS(tab.tabId, {file: "app/css/atoka_ext.css", runAt: "document_start"});
+}
+
+
+var restIcon = 'app/icons/atoka_48.png',
+	loadingIcons = [
+		'app/icons/load1.png',
+		'app/icons/load2.png',
+		'app/icons/load3.png',
+		'app/icons/load4.png',
+	];
+
+var isLoading = false,
+	currentLoadingIcon = 0;
+
+function startLoading() {
+	isLoading = true;
+	window.setTimeout(rotateIcon, 300);
+}
+function stopLoading() {
+	isLoading = false;
+   	chrome.browserAction.setIcon({ path: restIcon });
+}
+
+function rotateIcon() {               
+   if (isLoading) {
+   		chrome.browserAction.setIcon({ path: loadingIcons[currentLoadingIcon] });
+		currentLoadingIcon = (currentLoadingIcon + 1) % loadingIcons.length;
+		window.setTimeout(rotateIcon, 300);
+   }
 }
