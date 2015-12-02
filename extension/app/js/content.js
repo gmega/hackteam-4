@@ -46,7 +46,7 @@ function showData(data, isError) {
 		<div class='atoka-div'>
 			<h3 class='title'>${domainData['title']}</h3>
 			<div>
-				More info on <a href="${domainData.sameAs.atokaUri}" target="_blank">atoka.io</a>
+				More info on <a href="${domainData.sameAs.atokaUri}" target="_blank" class="atoka-href">atoka.io</a>
 			</div>
 			<ul class='annotations'></ul>
 		</div>
@@ -66,20 +66,20 @@ function showData(data, isError) {
 		spots.push(current.spot);
 
 		if (current.sameAs.wikipediaUri) {
-			wikipediaMarkup = `<a href="${current.sameAs.wikipediaUri}" target="_blank">Wikipedia</a>`;
+			wikipediaMarkup = `<a href="${current.sameAs.wikipediaUri}" target="_blank" class="atoka-href">Wikipedia</a>`;
 		}
 
 		if (current.sameAs.dbpediaUri) {
-			dbpediaMarkup = `<a href="${current.sameAs.dbpediaUri}" target="_blank">DBPedia</a>`;
+			dbpediaMarkup = `<a href="${current.sameAs.dbpediaUri}" target="_blank" class="atoka-href">DBPedia</a>`;
 		}
 
 		if (current.sameAs.atokaUri) {
-			atokaMarkup = `<a href="${current.sameAs.atokaUri}" target="_blank">Atoka.io</a>`;
+			atokaMarkup = `<a href="${current.sameAs.atokaUri}" target="_blank" class="atoka-href">Atoka.io</a>`;
 		}
 
 		var annotation = `
 			<li>
-				<span class='spot'>${current.spot}</span>:
+				<span class='atoka-spot'>${current.spot}</span>:
 				${wikipediaMarkup} ${dbpediaMarkup} ${atokaMarkup}
 			</li>
 		`;
