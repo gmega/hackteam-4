@@ -1,7 +1,7 @@
 chrome.runtime.onMessage.addListener(function(msg, sender, callback) {
 	switch(msg.text) {
-		case 'get_page_url':
-			callback(window.location.href);
+		case 'get_page_info':
+			callback({url: window.location.href, encoding: document.characterSet});
 			break;
 
 		case 'show_result':
@@ -23,34 +23,61 @@ function remove() {
 }
 
 function showError(data) {
-	var markup = `
-		<div class='atoka-div'>
-			Sorry, something went wrong.
-		</div>
-	`;
-	$('body').prepend(markup);
+    var markup = `
+        <div class='atoka-div'>
+            Sorry, something went wrong.
+        </div>
+    `;
+    $('body').prepend(markup);
 }
 
 function showData(data, isError) {
-	var domainData = data.domainData,
-		annotations = data.annotations;
+    remove();
 
-	var markup = `
-		<div class='atoka-div'>
-			<h3 class='title'>${domainData['title']}</h3>
-			<div>
-				More info on <a href="${domainData.sameAs.atokaUri}" target="_blank" class="atoka-href">atoka.io</a>
-			</div>
-			<ul class='annotations'></ul>
-		</div>
-	`;
+    var body = $('body'),
+        spots = [],
+        domainData = data.domainData,
+        annotations = data.annotations,
+        annotationNumber = annotations.length;
 
-	var spots = [];
-    var body = $('body')
+    var economicsInfo = '';
+    if ('economics' in domainData && 'revenue' in domainData.economics) {
+        economicsInfo = `<li>Last revenues: ${domainData.economics.revenue}€</li>`;
+    }
 
-	body.prepend(markup);
+    var atecoInfo = '';
+    if ('atecoLabel' in domainData) {
+        atecoInfo = `<small>${domainData['atecoLabel']}</small>`;
+    }
 
-	for (var len=annotations.length, i=0; i<len; i++) {
+    var employeesInfo = '';
+    if ('numberOfEmployees' in domainData) {
+        employeesInfo = `<li>Number of Employees: ${domainData['numberOfEmployees']}</li>`;
+    }
+
+    var markup = `
+        <div class='atoka-div'>
+            <small>We think this page belongs to</small>
+            <h3 class='title'>${domainData['title']}</h3>
+            ${atecoInfo}
+
+            <div class='more-info'>
+                <ul>
+                    ${economicsInfo}
+                    ${employeesInfo}
+                    <li>More info on <a href="${domainData.sameAs.atokaUri}" target="_blank">atoka.io</a></li>
+                </ul>
+            </div>
+        </div>
+    `;
+
+    body.prepend(markup);
+
+	if (annotationNumber > 0) {
+		$('div.atoka-div').append("<span>Found on this page:</span><ul class='annotations'></ul>");
+	}
+
+	for (var i=0; i<annotationNumber; i++) {
 		var current = annotations[i],
 			wikipediaMarkup = '',
 			dbpediaMarkup = '',
@@ -71,8 +98,9 @@ function showData(data, isError) {
 		}
 
 		var annotation = `
-			<li>
-				<span class='atoka-spot'>${current.spot}</span>:
+			<li> 
+                ${current.title} mentioned as 
+				<span class='atoka-spot'>${current.spot}</span>
 				${wikipediaMarkup} ${dbpediaMarkup} ${atokaMarkup}
 			</li>
 		`;

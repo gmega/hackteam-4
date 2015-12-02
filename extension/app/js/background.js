@@ -5,11 +5,12 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 	if (!isActive) {
 		removeInfo(tab.id);
+    deactivate();
 	} else {
 		startLoading();
 		injectCSS(tab.id)
-		chrome.tabs.sendMessage(tab.id, {text: 'get_page_url'}, function(url) { 
-			requestInfoAboutTab(tab, url);
+		chrome.tabs.sendMessage(tab.id, {text: 'get_page_info'}, function(info) { 
+			requestInfoAboutTab(tab, info);
 		});
 	}
 });
@@ -22,23 +23,25 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 
 	if (changeInfo.status === 'loading') {
 		startLoading();
-		injectCSS(tabId)
+		injectCSS(tabId);
 	}
 
 	if (changeInfo.status === 'complete') {
-		chrome.tabs.sendMessage(tab.id, {text: 'get_page_url'}, function(url) { 
-			requestInfoAboutTab(tab, url);
+		chrome.tabs.sendMessage(tab.id, {text: 'get_page_info'}, function(info) { 
+			requestInfoAboutTab(tab, info);
 		});
 	}
 
-	console.log('on updated', tab.url, arguments);
 });
 
 
-function requestInfoAboutTab(tab, url) {
-	var postData = { "url": url };
+function requestInfoAboutTab(tab, info) {
+	var postData = {
+		"url": info.url,
+		"encoding": info.encoding
+	};
 
-	console.log('Requesting info about ', tab.id, url);
+	console.log('Requesting info about ', tab.id, postData);
 	$.ajax({
   		url: 'http://hetzy1.spaziodati.eu:8083/api/annotate',
  		type: "POST",
@@ -80,7 +83,8 @@ var restIcon = 'app/icons/atoka_48.png',
 		'app/icons/load2.png',
 		'app/icons/load3.png',
 		'app/icons/load4.png',
-	];
+	],
+  nonActiveIcon = 'app/icons/deactivated1.png';
 
 var isLoading = false,
 	currentLoadingIcon = 0;
@@ -89,9 +93,15 @@ function startLoading() {
 	isLoading = true;
 	window.setTimeout(rotateIcon, 300);
 }
+
 function stopLoading() {
 	isLoading = false;
    	chrome.browserAction.setIcon({ path: restIcon });
+}
+
+function deactivate(){
+  isLoading = false;
+    chrome.browserAction.setIcon({ path: nonActiveIcon });
 }
 
 function rotateIcon() {               
