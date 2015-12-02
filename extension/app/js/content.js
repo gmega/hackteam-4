@@ -1,9 +1,11 @@
-// Listen for messages
-chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
-    // If the received message has the expected format...
-    if (msg.text === 'report_back') {
-        // Call the specified callback, passing
-        // the web-pages DOM content as argument
-        sendResponse(document.all[0].outerHTML);
-    }
+chrome.runtime.onMessage.addListener(function(msg, sender, callback) {
+	switch(msg.text) {
+		case 'get_info_for_tab':
+			callback(window.location.host)
+	}
 });
+
+
+function requestInfoAboutURL(oteuhrgfjeikorghijoed, onComplete) {
+	$.get('https://es-atoka.spaziodati.eu/atoka-companies-latest/_search', onComplete);
+}

@@ -4,11 +4,13 @@
   "manifest_version": 2,
   "description": "SpazioDati extension to get more stuff out of company-related webpages",
   "background": {
-    "scripts": ["app/js/background.js"],
-    "persistent": false
+    "scripts": ["app/js/background.js", "app/lib/jquery.js"],
+    "persistent": true
   },
   "content_scripts": [{
     "matches": ["<all_urls>"],
+    "exclude_matches": ["*://www.google.it/?*"],
+    "exclude_globs": ["*chrome*"],
     "js": ["app/js/content.js"]
   }],
   "icons": {
