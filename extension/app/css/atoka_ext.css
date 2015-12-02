@@ -8,3 +8,9 @@
     top: 10px;
     z-index: 9999;
 }
+
+span.highlight {
+    background-color: #FFFF88 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}

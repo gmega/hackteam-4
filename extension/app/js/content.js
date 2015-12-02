@@ -52,6 +52,8 @@ function showData(data, isError) {
 		</div>
 	`;
 
+	var spots = [];
+
 	$('body').prepend(markup);
 
 	for (var len=annotations.length, i=0; i<len; i++) {
@@ -59,6 +61,8 @@ function showData(data, isError) {
 			wikipediaMarkup = '',
 			dbpediaMarkup = '',
 			atokaMarkup = '';
+
+		spots += current.spot;
 
 		if (current.sameAs.wikipediaUri) {
 			wikipediaMarkup = `<a href="${current.sameAs.wikipediaUri}" target="_blank">Wikipedia</a>`;
@@ -81,5 +85,5 @@ function showData(data, isError) {
 		$('.atoka-div .annotations').append(annotation);
 	}
 
-
+	$('body').highlight(spots);
 }

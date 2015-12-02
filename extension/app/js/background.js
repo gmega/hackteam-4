@@ -51,7 +51,6 @@ function showError(tabId, data) {
 	chrome.tabs.sendMessage(tabId, {text: 'show_error', data: data});	
 }
 
-
 function injectCSS(tab) {
     chrome.tabs.insertCSS(tab.tabId, {file: "app/css/atoka_ext.css", runAt: "document_start"});
 }
