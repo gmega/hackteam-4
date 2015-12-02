@@ -22,7 +22,20 @@ chrome.runtime.onMessage.addListener(function(msg, sender, callback) {
 	}
 });
 
-
 function showData(data) {
-	$('body').prepend('<div class="atoka-div">' + JSON.stringify(data) + '</div>');
+	var domainData = data.domainData,
+		annotations = data.annotations;
+
+
+
+	var markup = `
+		<div class='atoka-div'>
+			<div class='title'>${domainData['_source']['legalName']}</div>
+			<div>
+				More info on <a href="${domainData['_id']}">atoka.io</a>
+			</div>
+		</div>
+	`;
+
+	$('body').prepend(markup);
 }
