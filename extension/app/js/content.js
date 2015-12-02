@@ -93,21 +93,21 @@ function showData(data, isError) {
 			atokaMarkup = '';
 
 		if (current.sameAs.wikipediaUri) {
-			wikipediaMarkup = `<a href="${current.sameAs.wikipediaUri}" target="_blank">Wikipedia</a>`;
+			wikipediaMarkup = `<a href="${current.sameAs.wikipediaUri}" target="_blank" class='wikipedia-button'>Wikipedia</a>`;
 		}
 
 		if (current.sameAs.dbpediaUri) {
-			dbpediaMarkup = `<a href="${current.sameAs.dbpediaUri}" target="_blank">DBPedia</a>`;
+			dbpediaMarkup = `<a href="${current.sameAs.dbpediaUri}" target="_blank"  class='dbpedia-button'>DBPedia</a>`;
 		}
 
 		if (current.sameAs.atokaUri) {
-			atokaMarkup = `<a href="${current.sameAs.atokaUri}" target="_blank">Atoka.io</a>`;
+			atokaMarkup = `<a href="${current.sameAs.atokaUri}" target="_blank" class='atoka-button'>Atoka.io</a>`;
 		}
 
 		var annotation = `
 			<li> 
                 <span data-spot="${current.spots[0]}" class='company-name'>${current.title}</span>
-				(${atokaMarkup} ${wikipediaMarkup} ${dbpediaMarkup})
+				${atokaMarkup} ${wikipediaMarkup} ${dbpediaMarkup}
 			</li>
 		`;
 		$('.atoka-div .annotations').append(annotation);
