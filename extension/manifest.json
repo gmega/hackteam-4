@@ -11,7 +11,7 @@
     "matches": ["<all_urls>"],
     "exclude_matches": ["*://www.google.it/?*"],
     "exclude_globs": ["*chrome*"],
-    "js": ["app/js/content.js"]
+    "js": ["app/js/content.js", "app/lib/jquery.js"]
   }],
   "icons": {
     "16": "app/icons/atoka_16.png",
@@ -27,6 +27,6 @@
     "activeTab", "tabs", "http://*/*", "https://*/*"
   ],
   "web_accessible_resources": [
-    "js/*.*"
+    "app/js/*.*", "app/lib/*.*"
   ]
 }
