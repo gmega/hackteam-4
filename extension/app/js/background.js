@@ -36,9 +36,9 @@ function requestInfoAboutTab(tab, url) {
   		success: function(data){
     		showResult(tab.id, data);
   		},
-  		error: function(data) {
-  			console.log('## Error from endpoing', arguments);
-  			showResult(tab.id, data)
+  		error: function(xhr, error, response) {
+  			console.log('## Error from endpoint', arguments);
+  			showError(tab.id, response);
   		}
 	});
 }
@@ -47,7 +47,11 @@ function showResult(tabId, data) {
 	chrome.tabs.sendMessage(tabId, {text: 'show_result', data: data});	
 }
 
+function showError(tabId, data) {
+	chrome.tabs.sendMessage(tabId, {text: 'show_error', data: data});	
+}
+
 
 function injectCSS(tab) {
-    chrome.tabs.insertCSS(tab.tabId, {file: "app/css/atoka_ext.css", runAt: "document_start"}, function() { console.log("CSS loaded"); })
+    chrome.tabs.insertCSS(tab.tabId, {file: "app/css/atoka_ext.css", runAt: "document_start"});
 }

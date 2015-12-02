@@ -19,23 +19,67 @@ chrome.runtime.onMessage.addListener(function(msg, sender, callback) {
 		case 'show_result':
 			showData(msg.data);
 			break;
+
+		case 'show_error':
+			showError(msg.data);
+			break;
+
 	}
 });
 
-function showData(data) {
+
+function showError(data) {
+	var markup = `
+		<div class='atoka-div'>
+			Sorry, something went wrong.
+		</div>
+	`;
+	$('body').prepend(markup);
+}
+
+function showData(data, isError) {
+
 	var domainData = data.domainData,
 		annotations = data.annotations;
 
-
-
 	var markup = `
 		<div class='atoka-div'>
-			<div class='title'>${domainData['_source']['legalName']}</div>
+			<h3 class='title'>${domainData['_source']['legalName']}</h3>
 			<div>
-				More info on <a href="${domainData['_id']}">atoka.io</a>
+				More info on <a href="${domainData['_id']}" target="_blank">atoka.io</a>
 			</div>
+			<ul class='annotations'></ul>
 		</div>
 	`;
 
 	$('body').prepend(markup);
+
+	for (var len=annotations.length, i=0; i<len; i++) {
+		var current = annotations[i],
+			wikipediaMarkup = '',
+			dbpediaMarkup = '',
+			atokaMarkup = '';
+
+		if (current.sameAs.wikipediaUri) {
+			wikipediaMarkup = `<a href="${current.sameAs.wikipediaUri}" target="_blank">Wikipedia</a>`;
+		}
+
+		if (current.sameAs.dbpediaUri) {
+			dbpediaMarkup = `<a href="${current.sameAs.dbpediaUri}" target="_blank">DBPedia</a>`;
+		}
+
+		if (current.sameAs.atokaUri) {
+			atokaMarkup = `<a href="${current.sameAs.atokaUri}" target="_blank">Atoka.io</a>`;
+		}
+
+		var annotation = `
+			<li>
+				<span class='spot'>${current.spot}</span>:
+				${wikipediaMarkup} ${dbpediaMarkup} ${atokaMarkup}
+			</li>
+		`;
+		$('.atoka-div .annotations').append(annotation);
+	}
+
+
 }
