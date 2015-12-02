@@ -1,0 +1,25 @@
+{
+  "name": "SD Extension",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "SpazioDati extension to get more stuff out of company-related webpages",
+  "background": {
+    "page": "app/index.html"
+  },
+  "icons": {
+    "16": "app/icons/atoka_16.png",
+    "48": "app/icons/atoka_48.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "icons/atoka_16.png"
+    },
+    "default_title": "Launch SD Extension"
+  },
+  "permissions": [
+    "tabs", "http://*/*", "https://*/*"
+  ],
+  "web_accessible_resources": [
+    "js/*.*"
+  ]
+}
