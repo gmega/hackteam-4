@@ -12,18 +12,12 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 // chrome.browserAction.setPopup({'popup': 'app/index.html'});
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-	if (tab.url === 'chrome://newtab/') console.log('IGNORAMI');
+	if (tab.url === 'chrome://newtab/') { return; }
 
 	if (changeInfo.status === 'complete') {
-		console.log('Asking html for tab ', tab.id);
-
 		chrome.tabs.sendMessage(tab.id, {text: 'get_raw_html'}, function(html) { 
-			console.log('raw html is here', html.length)
 			requestInfoAboutTab(tab, html);
 		});
-
-		
-		
 	}
 
 	console.log('on updated', tab.url, arguments);
@@ -37,7 +31,7 @@ chrome.tabs.onActivated.addListener(function(tabId, changeInfo, tab) {
 function requestInfoAboutTab(tab, html) {
 	var postData = {
 		"domain": "www.google.it",
-   		"html": "<html> bla bla bla </html>",
+   		"html": html,
    		"encoding": "UTF-8"
 	};
 
@@ -50,7 +44,7 @@ function requestInfoAboutTab(tab, html) {
   		success: function(data){
     		chrome.tabs.sendMessage(tab.id, {text: 'show_result', data: data});	
   		}
-	})
+	});
 }
 
 function injectCSS(tab) {
