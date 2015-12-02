@@ -4,6 +4,7 @@
   "manifest_version": 2,
   "description": "SpazioDati extension to get more stuff out of company-related webpages",
   "background": {
+    "pages": ["app/index.html"],
     "scripts": ["app/js/background.js", "app/lib/jquery.js"],
     "persistent": true
   },
@@ -27,6 +28,6 @@
     "activeTab", "tabs", "http://*/*", "https://*/*"
   ],
   "web_accessible_resources": [
-    "app/js/*.*", "app/lib/*.*"
+    "app/js/*.*", "app/lib/*.*", "app/css/*.*"
   ]
 }

@@ -1,6 +1,11 @@
 chrome.browserAction.onClicked.addListener(function(tab) {
-    chrome.tabs.sendMessage(tab.id, {text: 'report_back'}, doStuffWithDom);
+    // chrome.tabs.sendMessage(tab.id, {text: 'report_back'}, doStuffWithDom);
 	console.log('on clicked', arguments);
+    injectCSS(tab);
+
+    /* chrome.tabs.executeScript({
+        code: 'document.body.style.backgroundColor="red"'
+    }); */
 });
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
@@ -8,6 +13,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 
 	if (changeInfo.status === 'complete') {
 		console.log('Asking data for tab ', tab.id);
+
 		requestInfoAboutTab(tab);
 		// chrome.tabs.sendMessage(tab.id, {text: 'get_info_for_tab'}, function(url) { console.log('## cb', url); });
 	}
@@ -25,4 +31,8 @@ function requestInfoAboutTab(tab) {
 		console.log('-- ', data.hits.total);
 		chrome.tabs.sendMessage(tab.id, {text: 'show_something', hits: data.hits.total}, function() { console.log('## cb', arguments); });	
 	});
+}
+
+function injectCSS(tab) {
+    chrome.tabs.insertCSS(tab.tabId, {file: "app/css/atoka_ext.css", runAt: "document_start"}, function() { console.log("CSS loaded"); })
 }
