@@ -68,13 +68,14 @@ function showData(data, isError) {
                     <li>More info on <a href="${domainData.sameAs.atokaUri}" target="_blank">atoka.io</a></li>
                 </ul>
             </div>
+            <div class='annotations-container'></div>
         </div>
     `;
 
     body.prepend(markup);
 
 	if (annotationNumber > 0) {
-		$('div.atoka-div').append("<span>Found on this page:</span><ul class='annotations'></ul>");
+		$('.atoka-div .annotations-container').append("<h4>Also mentioned in the page:</h4><ul class='annotations'></ul>");
 	}
 
 	for (var i=0; i<annotationNumber; i++) {
@@ -82,8 +83,6 @@ function showData(data, isError) {
 			wikipediaMarkup = '',
 			dbpediaMarkup = '',
 			atokaMarkup = '';
-
-		spots.push(current.spot);
 
 		if (current.sameAs.wikipediaUri) {
 			wikipediaMarkup = `<a href="${current.sameAs.wikipediaUri}" target="_blank" class="atoka-href">Wikipedia</a>`;
@@ -99,13 +98,43 @@ function showData(data, isError) {
 
 		var annotation = `
 			<li> 
-                ${current.title} mentioned as 
-				<span class='atoka-spot'>${current.spot}</span>
+                <span data-spot="${current.spots[0]}" class='company-name'>${current.title}</span>
 				${wikipediaMarkup} ${dbpediaMarkup} ${atokaMarkup}
 			</li>
 		`;
 		$('.atoka-div .annotations').append(annotation);
 	}
 
-	body.highlight(spots);
+    var highlightedSpot = '',
+        highlightNum = 0;
+    function flyToNext() {
+        var last = $('span.highlight').length;
+
+        if (highlightNum >= last) {
+            highlightNum = 0;
+        }
+
+        current = $('span.highlight')[highlightNum];
+        if ($(current).parents('.atoka-div').length > 0) {
+            highlightNum++
+            flyToNext();
+        } else {
+            var top = $(current).offset().top - 10;
+            $('body')[0].scrollTop = top;
+            highlightNum++;
+        }
+    }
+
+    $('span.company-name').on('click', function() {
+        var spot = $(this).data('spot');
+        if (highlightedSpot !== spot) {
+            body.unhighlight();
+            body.highlight(spot);
+
+            highlightNum = 0;
+            highlightedSpot = spot;
+        }
+
+        flyToNext();
+    });
 }
