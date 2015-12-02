@@ -19,13 +19,12 @@
     "js": ["app/js/content.js", "app/lib/jquery.js", "app/lib/jquery.highlight.js"]
   }],
   "icons": {
-    "16": "app/icons/atoka_16.png",
-    "48": "app/icons/atoka_48.png"
+    "16": "app/icons/deactivated.png",
+    "48": "app/icons/atoka_48.png", 
+    "128": "app/icons/atoka_128.png"
   },
   "browser_action": {
-    "default_icon": {
-      "16": "icons/atoka_16.png"
-    },
+    "default_icon": "app/icons/deactivated.png",
     "default_title": "Click to activate the Atoka extension!"
   },
   "permissions": [
