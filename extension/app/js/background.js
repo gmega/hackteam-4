@@ -22,13 +22,10 @@ chrome.tabs.onActivated.addListener(function(tabId, changeInfo, tab) {
 
 
 function requestInfoAboutTab(tab, url) {
-	var postData = {
-   		"encoding": "UTF-8",
-   		"url": url
-	};
+	var postData = { "url": url };
 
 	$.ajax({
-  		url: 'http://hetzy2.spaziodati.eu:8083/api/annotate',
+  		url: 'http://hetzy1.spaziodati.eu:8083/api/annotate',
  		type: "POST",
   		data: JSON.stringify(postData),
   		contentType:"application/json; charset=utf-8",

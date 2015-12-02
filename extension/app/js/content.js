@@ -44,9 +44,9 @@ function showData(data, isError) {
 
 	var markup = `
 		<div class='atoka-div'>
-			<h3 class='title'>${domainData['_source']['legalName']}</h3>
+			<h3 class='title'>${domainData['title']}</h3>
 			<div>
-				More info on <a href="${domainData['_id']}" target="_blank">atoka.io</a>
+				More info on <a href="${domainData.sameAs.atokaUri}" target="_blank">atoka.io</a>
 			</div>
 			<ul class='annotations'></ul>
 		</div>
