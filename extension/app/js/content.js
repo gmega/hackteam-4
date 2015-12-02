@@ -48,7 +48,7 @@ function showData(data, isError) {
 
     var economicsInfo = '';
     if ('economics' in domainData && 'revenue' in domainData.economics) {
-        economicsInfo = `<li>Last revenues: ${domainData.economics.revenue}€</li>`;
+        economicsInfo = `<li>Last revenue: ${domainData.economics.revenue}€</li>`;
     }
 
     var atecoInfo = '';
@@ -106,8 +106,8 @@ function showData(data, isError) {
 
 		var annotation = `
 			<li> 
-                <span data-spot="${current.spots[0]}" class='company-name'>${current.title}</span>
-				${atokaMarkup} ${wikipediaMarkup} ${dbpediaMarkup}
+                <span data-spot="${current.spots[0]}" class='company-name' title='aaaaa'>${current.title}</span>
+				${atokaMarkup}${wikipediaMarkup}${dbpediaMarkup}
 			</li>
 		`;
 		$('.atoka-div .annotations').append(annotation);
