@@ -22,5 +22,7 @@ span.highlight {
 
 .atoka-div .title {
     font-size: 20px !important;
+    font-family: "Arial", Arial, sans-serif;
     margin: 0 !important;
+    color: #FFCC00 !important;
 }

@@ -19,6 +19,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, callback) {
 
 function remove() {
 	$('div.atoka-div').detach();
+    $('body').unhighlight();
 }
 
 function showError(data) {
