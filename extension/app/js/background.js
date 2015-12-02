@@ -1,13 +1,28 @@
+var isActive = false;
+
 chrome.browserAction.onClicked.addListener(function(tab) {
-	console.log('on clicked', arguments);
-    injectCSS(tab);
+	isActive = !isActive;
+
+	if (!isActive) {
+		removeInfo(tab.id);
+	} else {
+		startLoading();
+		injectCSS(tab.id)
+		chrome.tabs.sendMessage(tab.id, {text: 'get_page_url'}, function(url) { 
+			requestInfoAboutTab(tab, url);
+		});
+	}
 });
 
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-	if (tab.url === 'chrome://newtab/') { return;}
+	if (!isActive) { return; }
+
+	if (tab.url === 'chrome://newtab/') { return; }
 
 	if (changeInfo.status === 'loading') {
 		startLoading();
+		injectCSS(tabId)
 	}
 
 	if (changeInfo.status === 'complete') {
@@ -19,14 +34,11 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	console.log('on updated', tab.url, arguments);
 });
 
-chrome.tabs.onActivated.addListener(function(tabId, changeInfo, tab) {
-	console.log('on activated', arguments);
-});
-
 
 function requestInfoAboutTab(tab, url) {
 	var postData = { "url": url };
 
+	console.log('Requesting info about ', tab.id, url);
 	$.ajax({
   		url: 'http://hetzy1.spaziodati.eu:8083/api/annotate',
  		type: "POST",
@@ -53,8 +65,12 @@ function showError(tabId, data) {
 	chrome.tabs.sendMessage(tabId, {text: 'show_error', data: data});	
 }
 
-function injectCSS(tab) {
-    chrome.tabs.insertCSS(tab.tabId, {file: "app/css/atoka_ext.css", runAt: "document_start"});
+function injectCSS(tabId) {
+    chrome.tabs.insertCSS(tabId, {file: "app/css/atoka_ext.css", runAt: "document_start"});
+}
+
+function removeInfo(tabId) {
+	chrome.tabs.sendMessage(tabId, {text: 'remove'});		
 }
 
 

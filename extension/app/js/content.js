@@ -1,19 +1,7 @@
 chrome.runtime.onMessage.addListener(function(msg, sender, callback) {
 	switch(msg.text) {
-		case 'get_info_for_tab':
-			callback(window.location.host)
-			break;
-
-		case 'get_raw_html':
-			callback(document.all[0].outerHTML);
-			break;
-
 		case 'get_page_url':
 			callback(window.location.href);
-			break;
-
-		case 'show_something':
-			$('body').prepend('<div class="atoka-div">AAAAAAA '+ msg.hits +'</div>');
 			break;
 
 		case 'show_result':
@@ -24,9 +12,14 @@ chrome.runtime.onMessage.addListener(function(msg, sender, callback) {
 			showError(msg.data);
 			break;
 
+		case 'remove':
+			remove();
 	}
 });
 
+function remove() {
+	$('div.atoka-div').detach();
+}
 
 function showError(data) {
 	var markup = `
@@ -38,7 +31,6 @@ function showError(data) {
 }
 
 function showData(data, isError) {
-
 	var domainData = data.domainData,
 		annotations = data.annotations;
 
