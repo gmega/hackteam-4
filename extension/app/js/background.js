@@ -5,6 +5,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 	if (!isActive) {
 		removeInfo(tab.id);
+    deactivate();
 	} else {
 		startLoading();
 		injectCSS(tab.id)
@@ -80,7 +81,8 @@ var restIcon = 'app/icons/atoka_48.png',
 		'app/icons/load2.png',
 		'app/icons/load3.png',
 		'app/icons/load4.png',
-	];
+	],
+  nonActiveIcon = 'app/icons/deactivated1.png';
 
 var isLoading = false,
 	currentLoadingIcon = 0;
@@ -89,9 +91,15 @@ function startLoading() {
 	isLoading = true;
 	window.setTimeout(rotateIcon, 300);
 }
+
 function stopLoading() {
 	isLoading = false;
    	chrome.browserAction.setIcon({ path: restIcon });
+}
+
+function deactivate(){
+  isLoading = false;
+    chrome.browserAction.setIcon({ path: nonActiveIcon });
 }
 
 function rotateIcon() {               
