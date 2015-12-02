@@ -53,8 +53,9 @@ function showData(data, isError) {
 	`;
 
 	var spots = [];
+    var body = $('body')
 
-	$('body').prepend(markup);
+	body.prepend(markup);
 
 	for (var len=annotations.length, i=0; i<len; i++) {
 		var current = annotations[i],
@@ -62,7 +63,7 @@ function showData(data, isError) {
 			dbpediaMarkup = '',
 			atokaMarkup = '';
 
-		spots += current.spot;
+		spots.push(current.spot);
 
 		if (current.sameAs.wikipediaUri) {
 			wikipediaMarkup = `<a href="${current.sameAs.wikipediaUri}" target="_blank">Wikipedia</a>`;
@@ -85,5 +86,5 @@ function showData(data, isError) {
 		$('.atoka-div .annotations').append(annotation);
 	}
 
-	$('body').highlight(spots);
+	body.highlight(spots);
 }

@@ -1,7 +1,6 @@
 chrome.browserAction.onClicked.addListener(function(tab) {
 	console.log('on clicked', arguments);
     injectCSS(tab);
-
 });
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
