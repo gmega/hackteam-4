@@ -1,8 +1,9 @@
 var isActive = false;
 
 chrome.browserAction.onClicked.addListener(function(tab) {
-	isActive = !isActive;
-
+	if(isLoading) { return; }
+  isActive = !isActive;
+  console.log(chrome.browserAction);
 	if (!isActive) {
 		removeInfo(tab.id);
     deactivate();
@@ -17,7 +18,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-	if (!isActive) { return; }
+	if (!isActive) {return; }
 
 	if (tab.url === 'chrome://newtab/') { return; }
 
