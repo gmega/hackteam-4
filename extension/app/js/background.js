@@ -8,6 +8,8 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     }); */
 });
 
+chrome.browserAction.setPopup({'popup': 'app/index.html'});
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	if (tab.url === 'chrome://newtab/') console.log('IGNORAMI');
 
