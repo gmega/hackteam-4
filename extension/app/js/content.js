@@ -8,11 +8,17 @@ chrome.runtime.onMessage.addListener(function(msg, sender, callback) {
 			callback(document.all[0].outerHTML);
 			break;
 
+		case 'get_page_url':
+			callback(window.location.href);
+			break;
+
 		case 'show_something':
 			$('body').prepend('<div class="atoka-div">AAAAAAA '+ msg.hits +'</div>');
+			break;
 
 		case 'show_result':
 			showData(msg.data);
+			break;
 	}
 });
 

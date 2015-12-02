@@ -5,7 +5,11 @@
   "description": "SpazioDati extension to get more stuff out of company-related webpages",
   "background": {
     "pages": ["app/index.html"],
-    "scripts": ["app/js/background.js", "app/lib/jquery.js"],
+    "scripts": [
+      "app/js/background.js", 
+      "app/lib/jquery.js",
+      "app/lib/jquery.tmpl.js"
+    ],
     "persistent": true
   },
   "content_scripts": [{

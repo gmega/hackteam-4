@@ -2,21 +2,14 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	console.log('on clicked', arguments);
     injectCSS(tab);
 
-    /* 
-    chrome.tabs.executeScript({
-        code: 'document.body.style.backgroundColor="red"'
-    }); 
-	*/
 });
 
-// chrome.browserAction.setPopup({'popup': 'app/index.html'});
-
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-	if (tab.url === 'chrome://newtab/') { return; }
+	if (tab.url === 'chrome://newtab/') { return;}
 
 	if (changeInfo.status === 'complete') {
-		chrome.tabs.sendMessage(tab.id, {text: 'get_raw_html'}, function(html) { 
-			requestInfoAboutTab(tab, html);
+		chrome.tabs.sendMessage(tab.id, {text: 'get_page_url'}, function(url) { 
+			requestInfoAboutTab(tab, url);
 		});
 	}
 
@@ -28,11 +21,10 @@ chrome.tabs.onActivated.addListener(function(tabId, changeInfo, tab) {
 });
 
 
-function requestInfoAboutTab(tab, html) {
+function requestInfoAboutTab(tab, url) {
 	var postData = {
-		"domain": "www.google.it",
-   		"html": html,
-   		"encoding": "UTF-8"
+   		"encoding": "UTF-8",
+   		"url": url
 	};
 
 	$.ajax({
@@ -42,10 +34,19 @@ function requestInfoAboutTab(tab, html) {
   		contentType:"application/json; charset=utf-8",
   		dataType:"json",
   		success: function(data){
-    		chrome.tabs.sendMessage(tab.id, {text: 'show_result', data: data});	
+    		showResult(tab.id, data);
+  		},
+  		error: function(data) {
+  			console.log('## Error from endpoing', arguments);
+  			showResult(tab.id, data)
   		}
 	});
 }
+
+function showResult(tabId, data) {
+	chrome.tabs.sendMessage(tabId, {text: 'show_result', data: data});	
+}
+
 
 function injectCSS(tab) {
     chrome.tabs.insertCSS(tab.tabId, {file: "app/css/atoka_ext.css", runAt: "document_start"}, function() { console.log("CSS loaded"); })
