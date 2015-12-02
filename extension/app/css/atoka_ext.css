@@ -12,6 +12,7 @@
     padding: 10px !important;
     color: #777777 !important;
     line-height: 1.5 !important;
+    font-family: "Arial", Arial, sans-serif !important;
 }
 
 span.highlight {
@@ -21,11 +22,18 @@ span.highlight {
 }
 
 .atoka-div .atoka-href {
-    font-family: "Arial", Arial, serif !important;
+    font-family: "Arial", Arial, sans-serif !important;
 }
 
 .atoka-div .title {
     font-size: 20px !important;
+    font-family: "Arial", Arial, sans-serif !important;
+    margin: 0 !important;
+    color: #858cff !important;
+}
+
+.atoka-div .small {
+    font-size: 12px !important;
     font-family: "Arial", Arial, sans-serif !important;
     margin: 0 !important;
     color: #858cff !important;
@@ -38,4 +46,5 @@ span.highlight {
     background: transparent !important;
     display: block !important;
     list-style-type: disc !important;
+    font-family: "Arial", Arial, sans-serif !important;
 }

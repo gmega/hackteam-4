@@ -47,7 +47,7 @@ function showData(data, isError) {
 
     var atecoInfo = '';
     if ('atecoLabel' in domainData) {
-        atecoInfo = `<small>${domainData['atecoLabel']}</small>`;
+        atecoInfo = `${domainData['atecoLabel']}`;
     }
 
     var employeesInfo = '';
@@ -57,9 +57,9 @@ function showData(data, isError) {
 
     var markup = `
         <div class='atoka-div'>
-            <small>We think this page belongs to</small>
+            <small class="small">We think this page belongs to</small>
             <h3 class='title'>${domainData['title']}</h3>
-            ${atecoInfo}
+            <small class="small">${atecoInfo}</small>
 
             <div class='more-info'>
                 <ul>
