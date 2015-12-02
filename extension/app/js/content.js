@@ -32,17 +32,41 @@ function showError(data) {
 }
 
 function showData(data, isError) {
+    remove();
+
     var body = $('body'),
         spots = [],
         domainData = data.domainData,
         annotations = data.annotations,
         annotationNumber = annotations.length;
 
+    var economicsInfo = '';
+    if ('economics' in domainData && 'revenue' in domainData.economics) {
+        economicsInfo = `<li>Last revenues: ${domainData.economics.revenue}€</li>`;
+    }
+
+    var atecoInfo = '';
+    if ('atecoLabel' in domainData) {
+        atecoInfo = `<small>${domainData['atecoLabel']}</small>`;
+    }
+
+    var employeesInfo = '';
+    if ('numberOfEmployees' in domainData) {
+        employeesInfo = `<li>Number of Employees: ${domainData['numberOfEmployees']}</li>`;
+    }
+
     var markup = `
         <div class='atoka-div'>
-            <h3 class='title'><small>this page belongs to</small>${domainData['title']}</h3>
-            <div>
-                More info on <a href="${domainData.sameAs.atokaUri}" target="_blank">atoka.io</a>
+            <small>We think this page belongs to</small>
+            <h3 class='title'>${domainData['title']}</h3>
+            ${atecoInfo}
+
+            <div class='more-info'>
+                <ul>
+                    ${economicsInfo}
+                    ${employeesInfo}
+                    <li>More info on <a href="${domainData.sameAs.atokaUri}" target="_blank">atoka.io</a></li>
+                </ul>
             </div>
         </div>
     `;
@@ -74,8 +98,9 @@ function showData(data, isError) {
 		}
 
 		var annotation = `
-			<li>
-				<span class='atoka-spot'>${current.spot}</span>:
+			<li> 
+                ${current.title} mentioned as 
+				<span class='atoka-spot'>${current.spot}</span>
 				${wikipediaMarkup} ${dbpediaMarkup} ${atokaMarkup}
 			</li>
 		`;
