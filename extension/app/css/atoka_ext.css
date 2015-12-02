@@ -8,6 +8,10 @@
     top: 10px !important;
     z-index: 9999 !important;
     text-align: left !important;
+    font-size: 14px !important;
+    padding: 10px !important;
+    color: #777777 !important;
+    line-height: 1.5 !important;
 }
 
 span.highlight {
@@ -22,7 +26,16 @@ span.highlight {
 
 .atoka-div .title {
     font-size: 20px !important;
-    font-family: "Arial", Arial, sans-serif;
+    font-family: "Arial", Arial, sans-serif !important;
     margin: 0 !important;
-    color: #FFCC00 !important;
+    color: #858cff !important;
+}
+
+.atoka-div ul {
+    padding-left: 30px !important;
+    font-size: 100% !important;
+    vertical-align: baseline !important;
+    background: transparent !important;
+    display: block !important;
+    list-style-type: disc !important;
 }
