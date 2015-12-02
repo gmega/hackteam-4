@@ -1,3 +1,9 @@
 .atoka-div {
     border: 1px solid red !important;
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: white;
+    right: 10px;
+    top: 10px;
 }
