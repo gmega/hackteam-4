@@ -90,7 +90,8 @@ function showData(data, isError) {
 		var current = annotations[i],
 			wikipediaMarkup = '',
 			dbpediaMarkup = '',
-			atokaMarkup = '';
+			atokaMarkup = '',
+            kind = 'Company';
 
 		if (current.sameAs.wikipediaUri) {
 			wikipediaMarkup = `<a href="${current.sameAs.wikipediaUri}" target="_blank" class='wikipedia-button'>Wikipedia</a>`;
@@ -102,11 +103,16 @@ function showData(data, isError) {
 
 		if (current.sameAs.atokaUri) {
 			atokaMarkup = `<a href="${current.sameAs.atokaUri}" target="_blank" class='atoka-button'>Atoka.io</a>`;
+            if (current.sameAs.atokaUri.match(/people/) !== null) {
+                kind = "Person";
+            }
 		}
 
 		var annotation = `
 			<li> 
-                <span data-spot="${current.spots[0]}" class='company-name' title='aaaaa'>${current.title}</span>
+                <span data-spot="${current.spots[0]}" class='company-name' title='Click to see the mention'>
+                    ${kind}: ${current.title}
+                </span>
 				${atokaMarkup}${wikipediaMarkup}${dbpediaMarkup}
 			</li>
 		`;
