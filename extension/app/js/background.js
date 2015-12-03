@@ -4,6 +4,9 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	if(isLoading) { return; }
   	isActive = !isActive;
 
+	if (tab.url.match(/atoka\.io/) !== null) { return; }
+	if (tab.url.match(/www.google\./) !== null) { return; }
+
 	if (!isActive) {
 		removeInfo(tab.id);
     	deactivate();
@@ -19,6 +22,9 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	if (!isActive) {return; }
+
+	if (tab.url.match(/atoka\.io/) !== null) { return; }
+	if (tab.url.match(/www.google\./) !== null) { return; }
 
 	if (tab.url === 'chrome://newtab/') { return; }
 
