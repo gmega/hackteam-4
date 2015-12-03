@@ -88,15 +88,21 @@ var restIcon = 'app/icons/atoka_48.png',
   nonActiveIcon = 'app/icons/deactivated.png';
 
 var isLoading = false,
-	currentLoadingIcon = 0;
+	currentLoadingIcon = 0,
+	animationTimer = null;
 
 function startLoading() {
+	if (animationTimer !== null) {
+		clearTimeout(animationTimer);
+	}
+
 	isLoading = true;
-  chrome.browserAction.setTitle({ title: '...loading...'})
-	window.setTimeout(rotateIcon, 300);
+  	chrome.browserAction.setTitle({ title: '...loading...'});
+	animationTimer = setTimeout(rotateIcon, 300);
 }
 
 function stopLoading() {
+	clearTimeout(animationTimer);
 	isLoading = false;
    	chrome.browserAction.setIcon({ path: restIcon });
     chrome.browserAction.setTitle({ title: 'Click to deactivate the Atoka extension!'})
@@ -108,10 +114,13 @@ function deactivate(){
     chrome.browserAction.setTitle({ title: 'Click to activate the Atoka extension!'})
 }
 
-function rotateIcon() {               
+function rotateIcon() {
+	if (animationTimer !== null) {
+		clearTimeout(animationTimer);
+	}
    if (isLoading) {
    		chrome.browserAction.setIcon({ path: loadingIcons[currentLoadingIcon] });
 		currentLoadingIcon = (currentLoadingIcon + 1) % loadingIcons.length;
-		window.setTimeout(rotateIcon, 300);
+		animationTimer = setTimeout(rotateIcon, 300);
    }
 }
