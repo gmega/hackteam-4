@@ -127,7 +127,7 @@ function showData(data, isError) {
             highlightNum++
             flyToNext();
         } else {
-            var top = $(current).offset().top - 10;
+            var top = $(current).offset().top - 200;
             $('body')[0].scrollTop = top;
             highlightNum++;
         }
