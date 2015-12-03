@@ -14,7 +14,7 @@
   },
   "content_scripts": [{
     "matches": ["<all_urls>"],
-    "exclude_matches": ["*://www.google.it/*"],
+    "exclude_matches": ["*://www.google.it/*", "https://atoka.io/*", "https://spaziodati.slack.com/*", "https://it.wikipedia.org/*", "http://it.dbpedia.org/*"],
     "exclude_globs": ["*chrome*"],
     "js": ["app/js/content.js", "app/lib/jquery.js", "app/lib/jquery.highlight.js"]
   }],
